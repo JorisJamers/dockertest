@@ -31,6 +31,8 @@ node {
         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
             app.push("${env.BUILD_NUMBER}")
             app.push("latest")
+            sh 'docker pull jollygnome/hellonode:latest'
+            sh 'kubectl run hello-web —image=jollygnome/hellonode —port 8000'
         }
     }
 }
