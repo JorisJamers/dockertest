@@ -31,16 +31,14 @@ node {
         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
             app.push("${env.BUILD_NUMBER}")
             app.push("latest")
-        }
-    }
-    stage('Deploy container') {
-        sh 'docker pull jollygnome/hellonode:latest'
-        try {
-          sh 'kubectl run hello-web --image=jollygnome/hellonode --port 8000'
-        } catch {
-          kubectl rolling-update frontend --image=jollygnome/hellonode
-        } finally {
-          sh 'kubectl expose deployment hello-web --type=LoadBalancer --port 80 --target-port 8000'
+            sh 'docker pull jollygnome/hellonode:latest'
+            try {
+              sh 'kubectl run hello-web --image=jollygnome/hellonode --port 8000'
+            } catch {
+              kubectl rolling-update frontend --image=jollygnome/hellonode
+            } finally {
+              sh 'kubectl expose deployment hello-web --type=LoadBalancer --port 80 --target-port 8000'
+            }
         }
     }
 }
