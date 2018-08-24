@@ -32,7 +32,7 @@ node {
             app.push("${env.BUILD_NUMBER}")
             app.push("latest")
             sh 'docker pull jollygnome/hellonode:latest'
-            sh 'kubectl rollout hello-web --image=jollygnome/hellonode'
+            sh 'kubectl run hello-web --image=jollygnome/hellonode --port 8000'
             sh 'kubectl expose deployment hello-web --type=LoadBalancer --port 80 --target-port 8000'
         }
     }
