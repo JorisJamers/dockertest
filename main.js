@@ -4,7 +4,7 @@ var http = require('http');
 // configure our HTTP server
 var server = http.createServer(function (request, response) {
   response.writeHead(200, {"Content-Type": "text/plain"});
-  response.end("If this gets online, the pipeline works!!\n");
+  response.end("The rolling update\n");
 });
 
 // listen on localhost:8000
