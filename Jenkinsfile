@@ -32,16 +32,25 @@ node {
             app.push("${env.BUILD_NUMBER}")
             app.push("latest")
         }
-    try{
-      stage ('Deploy to develop env'){
-              sh 'docker pull jollygnome/hellonode:latest'
-              sh 'kubectl --namespace=tst run hello-web --image=jollygnome/hellonode --port 8000'
-              sh 'kubectl --namespace=tst expose deployment hello-web --type=LoadBalancer --port 80 --target-port 8000'
-              sh 'kubectl --namespace=tst autoscale deployment hello-web --min=2 --max=10'
-    } catch (Exception e) {
-      kubectl --namespace=tst set image deployments hello-web hello-web=jollygnome/hellonode:${env.BUILD_NUMBER}
-      }
+
+    script{
+      try {
+        stage ('Deploy to develop env}{
+          sh 'docker pull jollygnome/hellonode:latest'
+          sh 'kubectl --namespace=tst run hello-web --image=jollygnome/hellonode --port 8000'
+          sh 'kubectl --namespace=tst expose deployment hello-web --type=LoadBalancer --port 80 --target-port 8000'
+          sh 'kubectl --namespace=tst autoscale deployment hello-web --min=2 --max=10'
+        } catch (Exception e) {
+            kubectl --namespace=tst set image deployments hello-web hello-web=jollygnome/hellonode:${env.BUILD_NUMBER}
+          }
+        }
     }
+    /*stage ('Deploy to develop env'){
+    *        sh 'docker pull jollygnome/hellonode:latest'
+    *        sh 'kubectl --namespace=tst run hello-web --image=jollygnome/hellonode --port 8000'
+    *        sh 'kubectl --namespace=tst expose deployment hello-web --type=LoadBalancer --port 80 --target-port 8000'
+    *        sh 'kubectl --namespace=tst autoscale deployment hello-web --min=2 --max=10'
+    }*/
     stage ('Deploy tot uat env'){
             sh 'docker pull jollygnome/hellonode:latest'
             sh 'kubectl --namespace=uat run hello-web --image=jollygnome/hellonode --port 8000'
