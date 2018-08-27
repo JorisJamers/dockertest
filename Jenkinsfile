@@ -35,7 +35,7 @@ node {
 
     script{
       try {
-        stage ('Deploy to develop env}{
+        stage ('Deploy to develop env'){
           sh 'docker pull jollygnome/hellonode:latest'
           sh 'kubectl --namespace=tst run hello-web --image=jollygnome/hellonode --port 8000'
           sh 'kubectl --namespace=tst expose deployment hello-web --type=LoadBalancer --port 80 --target-port 8000'
