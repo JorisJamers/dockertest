@@ -64,6 +64,7 @@ node {
 
       stage ('Deploy approval to production'){
               input "Deploy to prod?"
+              slackSend (color: '#00FF00', message: "I am waiting for your approval to deployh the build to production.")
       }
 
       try {
