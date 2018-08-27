@@ -35,7 +35,7 @@ node {
             sh 'kubectl --namespace=prd run hello-web --image=jollygnome/hellonode --port 8000'
             sh 'kubectl --namespace=prd expose deployment hello-web --type=LoadBalancer --port 80 --target-port 8000'
             sh 'kubectl --namespace=prd autoscale deployment hello-web --min=2 --max=10'
-            slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            /*slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")*/
         }
     }
 }
