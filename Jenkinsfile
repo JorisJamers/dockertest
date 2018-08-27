@@ -41,9 +41,12 @@ node {
                 sh 'kubectl --namespace=tst run hello-web --image=jollygnome/hellonode --port 8000'
                 sh 'kubectl --namespace=tst expose deployment hello-web --type=LoadBalancer --port 80 --target-port 8000'
                 sh 'kubectl --namespace=tst autoscale deployment hello-web --min=2 --max=10'
+                slackSend (color: '#00FF00', message: "SUCCESSFUL: Deploy to the test environment.")
         }
       } catch (AlreadyExists) {
         sh 'kubectl --namespace=tst set image deployments hello-web hello-web=jollygnome/hellonode:${BUILD_NUMBER}'
+        slackSend (color: '#00FF00', message: "SUCCESSFUL: Update on the test environment.")
+
       }
       try {
         stage ('Deploy to the uat environment'){
@@ -51,9 +54,12 @@ node {
                 sh 'kubectl --namespace=uat run hello-web --image=jollygnome/hellonode --port 8000'
                 sh 'kubectl --namespace=uat expose deployment hello-web --type=LoadBalancer --port 80 --target-port 8000'
                 sh 'kubectl --namespace=uat autoscale deployment hello-web --min=2 --max=10'
+                slackSend (color: '#00FF00', message: "SUCCESSFUL: Deploy to the uat environment.")
+
         }
       } catch (AlreadyExists) {
         sh 'kubectl --namespace=uat set image deployments hello-web hello-web=jollygnome/hellonode:${BUILD_NUMBER}'
+        slackSend (color: '#00FF00', message: "SUCCESSFUL: Update on the uat environment.")
       }
 
       stage ('Deploy approval to production'){
@@ -66,9 +72,12 @@ node {
                 sh 'kubectl --namespace=prd run hello-web --image=jollygnome/hellonode --port 8000'
                 sh 'kubectl --namespace=prd expose deployment hello-web --type=LoadBalancer --port 80 --target-port 8000'
                 sh 'kubectl --namespace=prd autoscale deployment hello-web --min=2 --max=10'
+                slackSend (color: '#00FF00', message: "SUCCESSFUL: Deploy to the production environment.")
         }
       } catch (AlreadyExists) {
         sh 'kubectl --namespace=prd set image deployments hello-web hello-web=jollygnome/hellonode:${BUILD_NUMBER}'
+        slackSend (color: '#00FF00', message: "SUCCESSFUL: Update on the production environment.")
       }
     }
+    slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 }
