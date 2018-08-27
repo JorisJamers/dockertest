@@ -4,7 +4,7 @@ var http = require('http');
 // configure our HTTP server
 var server = http.createServer(function (request, response) {
   response.writeHead(200, {"Content-Type": "text/plain"});
-  response.end("Rolling update manual test hello\n");
+  response.end("i'm curious if the new jenkins server works with the slack notifications and webhooks\n");
 });
 
 // listen on localhost:8000
