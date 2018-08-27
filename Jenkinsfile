@@ -45,30 +45,30 @@ node {
       } catch (AlreadyExists) {
         sh 'kubectl --namespace=tst set image deployments hello-web hello-web=jollygnome/hellonode:${BUILD_NUMBER}'
       }
-    }
+      try {
+        stage ('Deploy to uat env'){
+                sh 'docker pull jollygnome/hellonode:latest'
+                sh 'kubectl --namespace=uat run hello-web --image=jollygnome/hellonode --port 8000'
+                sh 'kubectl --namespace=uat expose deployment hello-web --type=LoadBalancer --port 80 --target-port 8000'
+                sh 'kubectl --namespace=uat autoscale deployment hello-web --min=2 --max=10'
+        }
+      } catch (AlreadyExists) {
+        sh 'kubectl --namespace=uat set image deployments hello-web hello-web=jollygnome/hellonode:${BUILD_NUMBER}'
+      }
 
-    stage ('Deploy to develop env'){
-            sh 'docker pull jollygnome/hellonode:latest'
-            sh 'kubectl --namespace=tst run hello-web --image=jollygnome/hellonode --port 8000'
-            sh 'kubectl --namespace=tst expose deployment hello-web --type=LoadBalancer --port 80 --target-port 8000'
-            sh 'kubectl --namespace=tst autoscale deployment hello-web --min=2 --max=10'
-    }
+      stage ('Deploy approval'){
+              input "Deploy to prod?"
+      }
 
-    stage ('Deploy tot uat env'){
-            sh 'docker pull jollygnome/hellonode:latest'
-            sh 'kubectl --namespace=uat run hello-web --image=jollygnome/hellonode --port 8000'
-            sh 'kubectl --namespace=uat expose deployment hello-web --type=LoadBalancer --port 80 --target-port 8000'
-            sh 'kubectl --namespace=uat autoscale deployment hello-web --min=2 --max=10'
-    }
-
-    stage ('Deploy approval'){
-            input "Deploy to prod?"
-    }
-
-    stage ('Deploy to production env'){
-            sh 'docker pull jollygnome/hellonode:latest'
-            sh 'kubectl --namespace=prd run hello-web --image=jollygnome/hellonode --port 8000'
-            sh 'kubectl --namespace=prd expose deployment hello-web --type=LoadBalancer --port 80 --target-port 8000'
-            sh 'kubectl --namespace=prd autoscale deployment hello-web --min=2 --max=10'
+      try {
+        stage ('Deploy to production env'){
+                sh 'docker pull jollygnome/hellonode:latest'
+                sh 'kubectl --namespace=prd run hello-web --image=jollygnome/hellonode --port 8000'
+                sh 'kubectl --namespace=prd expose deployment hello-web --type=LoadBalancer --port 80 --target-port 8000'
+                sh 'kubectl --namespace=prd autoscale deployment hello-web --min=2 --max=10'
+        }
+      } catch (AlreadyExists) {
+        sh 'kubectl --namespace=prd set image deployments hello-web hello-web=jollygnome/hellonode:${BUILD_NUMBER}'
+      }
     }
 }
