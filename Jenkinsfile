@@ -41,7 +41,10 @@ node {
                 sh 'kubectl --namespace=tst run hello-web --image=jollygnome/hellonode --port 8000'
                 sh 'kubectl --namespace=tst expose deployment hello-web --type=LoadBalancer --port 80 --target-port 8000'
                 sh 'kubectl --namespace=tst autoscale deployment hello-web --min=2 --max=10'
+                def TEST_IP = sh 'kubectl --namespace=tst get services | grep -v NAME | cut -d' ' -f10'
+                slackSend (color: '#00FF00', message: ${TEST_IP})
                 slackSend (color: '#00FF00', message: "SUCCESSFUL: Deploy to the test environment.")
+
         }
       } catch (AlreadyExists) {
         sh 'kubectl --namespace=tst set image deployments hello-web hello-web=jollygnome/hellonode:${BUILD_NUMBER}'
