@@ -44,7 +44,6 @@ node {
         }
       } catch (AlreadyExists) {
         sh 'kubectl --namespace=tst set image deployments hello-web hello-web=jollygnome/hellonode:${BUILD_NUMBER}'
-        currentBuild.result = 'SUCCESS'
       }
       try {
         stage ('Deploy to the uat environment'){
@@ -55,7 +54,6 @@ node {
         }
       } catch (AlreadyExists) {
         sh 'kubectl --namespace=uat set image deployments hello-web hello-web=jollygnome/hellonode:${BUILD_NUMBER}'
-        currentBuild.result = 'SUCCESS'
       }
 
       stage ('Deploy approval to production'){
@@ -71,8 +69,6 @@ node {
         }
       } catch (AlreadyExists) {
         sh 'kubectl --namespace=prd set image deployments hello-web hello-web=jollygnome/hellonode:${BUILD_NUMBER}'
-        currentBuild.result = 'SUCCESS'
       }
-      echo "RESULT: ${currentBuild.result}"
     }
 }
