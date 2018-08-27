@@ -43,7 +43,7 @@ node {
                 sh 'kubectl --namespace=tst autoscale deployment hello-web --min=2 --max=10'
         }
       } catch (AlreadyExists) {
-        sh 'kubectl --namespace=tst set image deployments hello-web hello-web=jollygnome/hellonode:${env.BUILD_NUMBER}'
+        sh 'kubectl --namespace=tst set image deployments hello-web hello-web=jollygnome/hellonode:${BUILD_NUMBER}'
       }
     }
 
