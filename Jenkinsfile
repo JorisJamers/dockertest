@@ -36,7 +36,7 @@ node {
 
     script{
       try {
-        stage ('Deploy to develop env'){
+        stage ('Deploy to the test environment'){
                 sh 'docker pull jollygnome/hellonode:latest'
                 sh 'kubectl --namespace=tst run hello-web --image=jollygnome/hellonode --port 8000'
                 sh 'kubectl --namespace=tst expose deployment hello-web --type=LoadBalancer --port 80 --target-port 8000'
@@ -47,7 +47,7 @@ node {
         currentBuild.result = 'SUCCESS'
       }
       try {
-        stage ('Deploy to uat env'){
+        stage ('Deploy to the uat environment'){
                 sh 'docker pull jollygnome/hellonode:latest'
                 sh 'kubectl --namespace=uat run hello-web --image=jollygnome/hellonode --port 8000'
                 sh 'kubectl --namespace=uat expose deployment hello-web --type=LoadBalancer --port 80 --target-port 8000'
@@ -58,12 +58,12 @@ node {
         currentBuild.result = 'SUCCESS'
       }
 
-      stage ('Deploy approval'){
+      stage ('Deploy approval to production'){
               input "Deploy to prod?"
       }
 
       try {
-        stage ('Deploy to production env'){
+        stage ('Deploy to the production environment'){
                 sh 'docker pull jollygnome/hellonode:latest'
                 sh 'kubectl --namespace=prd run hello-web --image=jollygnome/hellonode --port 8000'
                 sh 'kubectl --namespace=prd expose deployment hello-web --type=LoadBalancer --port 80 --target-port 8000'
