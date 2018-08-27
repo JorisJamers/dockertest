@@ -4,7 +4,7 @@ var http = require('http');
 // configure our HTTP server
 var server = http.createServer(function (request, response) {
   response.writeHead(200, {"Content-Type": "text/plain"});
-  response.end("This is the version after the rerun of the ansible playbook.\n");
+  response.end("This is the updated version of the website.\n");
 });
 
 // listen on localhost:8000
