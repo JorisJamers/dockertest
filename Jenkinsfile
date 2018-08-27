@@ -73,5 +73,6 @@ node {
         sh 'kubectl --namespace=prd set image deployments hello-web hello-web=jollygnome/hellonode:${BUILD_NUMBER}'
         currentBuild.result = 'SUCCESS'
       }
+      echo "RESULT: ${currentBuild.result}"
     }
 }
