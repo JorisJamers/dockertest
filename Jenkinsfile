@@ -23,10 +23,6 @@ node {
         }
     }
 
-    stage ('Deploy approval'){
-            input "Deploy to prod?"
-    }
-
     stage('Push image') {
         /* Finally, we'll push the image with two tags:
          * First, the incremental build number from Jenkins
@@ -35,11 +31,34 @@ node {
         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
             app.push("${env.BUILD_NUMBER}")
             app.push("latest")
+            /*sh 'docker pull jollygnome/hellonode:latest'
+            *sh 'kubectl --namespace=prd run hello-web --image=jollygnome/hellonode --port 8000'
+            *sh 'kubectl --namespace=prd expose deployment hello-web --type=LoadBalancer --port 80 --target-port 8000'
+            *sh 'kubectl --namespace=prd autoscale deployment hello-web --min=2 --max=10'*/
+            /*slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")*/
+        }
+    stage ('Deploy to develop env'){
+            sh 'docker pull jollygnome/hellonode:latest'
+            sh 'kubectl --namespace=tst run hello-web --image=jollygnome/hellonode --port 8000'
+            sh 'kubectl --namespace=tst expose deployment hello-web --type=LoadBalancer --port 80 --target-port 8000'
+            sh 'kubectl --namespace=tst autoscale deployment hello-web --min=2 --max=10'
+    }
+    stage ('Deploy tot uat env'){
+            sh 'docker pull jollygnome/hellonode:latest'
+            sh 'kubectl --namespace=uat run hello-web --image=jollygnome/hellonode --port 8000'
+            sh 'kubectl --namespace=uat expose deployment hello-web --type=LoadBalancer --port 80 --target-port 8000'
+            sh 'kubectl --namespace=uat autoscale deployment hello-web --min=2 --max=10'
+    }
+    stage ('Deploy approval'){
+            input "Deploy to prod?"
+    }
+    stage ('Deploy to production env'){
             sh 'docker pull jollygnome/hellonode:latest'
             sh 'kubectl --namespace=prd run hello-web --image=jollygnome/hellonode --port 8000'
             sh 'kubectl --namespace=prd expose deployment hello-web --type=LoadBalancer --port 80 --target-port 8000'
             sh 'kubectl --namespace=prd autoscale deployment hello-web --min=2 --max=10'
-            /*slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")*/
-        }
+    }
+
+
     }
 }
