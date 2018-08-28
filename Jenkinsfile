@@ -42,11 +42,11 @@ node {
       sh 'mkdir -p /var/lib/jenkins/hello-node/templates/prd/${BUILD_NUMBER}'
       sh 'sed -i -e \"s/buildNumber/\${BUILD_NUMBER}/g\" hello-web-deploy.yaml'
       sh 'cp hello-web-deploy.yaml /var/lib/jenkins/hello-node/templates/tst/${BUILD_NUMBER}'
-      sh 'sed -i -e \"s/environment/tst/g\" /var/lib/jenkins/hello-node/templates/tst/${BUILD_NUMBER}'
+      sh 'sed -i -e \"s/environment/tst/g\" /var/lib/jenkins/hello-node/templates/tst/${BUILD_NUMBER}/hello-web-deploy.yaml'
       sh 'cp hello-web-deploy.yaml /var/lib/jenkins/hello-node/templates/uat/${BUILD_NUMBER}'
-      sh 'sed -i -e \"s/environment/uat/g\" /var/lib/jenkins/hello-node/templates/uat/${BUILD_NUMBER}'
+      sh 'sed -i -e \"s/environment/uat/g\" /var/lib/jenkins/hello-node/templates/uat/${BUILD_NUMBER}/hello-web-deploy.yaml'
       sh 'cp hello-web-deploy.yaml /var/lib/jenkins/hello-node/templates/prd/${BUILD_NUMBER}'
-      sh 'sed -i -e \"s/environment/prd/g\" /var/lib/jenkins/hello-node/templates/prd/${BUILD_NUMBER}'
+      sh 'sed -i -e \"s/environment/prd/g\" /var/lib/jenkins/hello-node/templates/prd/${BUILD_NUMBER}/hello-web-deploy.yaml'
       sh 'mv hello-web-deploy.yaml /var/lib/jenkins/hello-node/templates/${BUILD_NUMBER}'
     }
 
