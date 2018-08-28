@@ -5,7 +5,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      run: hello-web-environment-environment
+      run: hello-web-environment
   replicas: 2
   template:
     metadata:
