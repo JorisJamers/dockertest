@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hello-web
+  name: hello-web-environment
 spec:
   selector:
     matchLabels:
-      run: hello-web
+      run: hello-web-environment-environment
   replicas: 2
   template:
     metadata:
       labels:
-        run: hello-web
+        run: hello-web-environment
     spec:
       containers:
-      - name: hello-web
+      - name: hello-web-environment
         image: jollygnome/hellonode:buildNumber
         imagePullPolicy: "Always"
         ports:
@@ -22,9 +22,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: hello-web
+  name: hello-web-environment
   labels:
-    run: hello-web
+    run: hello-web-environment
 spec:
   ports:
   - port: 80
@@ -32,4 +32,4 @@ spec:
     protocol: TCP
   type: LoadBalancer
   selector:
-    run: hello-web
+    run: hello-web-environment
