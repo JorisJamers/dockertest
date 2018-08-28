@@ -35,7 +35,7 @@ node {
     }
 
     stage ('Change the build template'){
-      sh 'wget -P ~ 'https://raw.githubusercontent.com/JorisJamers/dockertest/master/hello-web_deploy.yaml''
+      sh 'wget -P ~ "https://raw.githubusercontent.com/JorisJamers/dockertest/master/hello-web_deploy.yaml"'
       sh 'mkdir -p /var/lib/jenkins/hello-node/templates/${BUILD_NUMBER}'
       sh 'mv hello-web_deploy.yaml /var/lib/jenkins/hello-node/templates/${BUILD_NUMBER}'
       sh 'sed -i -e 's/buildNumber/${BUILD_NUMBER}/g' /var/lib/jenkins/hello-node/templates/${BUILD_NUMBER}/hello-web_deploy.yaml'
