@@ -43,8 +43,8 @@ node {
     }
 
     stage ('Deploy approval to production'){
-      sh 'kubectl --namespace=uat set image deployments hello-web hello-web=jollygnome/hellonode:${BUILD_NUMBER}'
-      slackSend (color: '#00FF00', message: "SUCCESSFUL: Update on the uat environment.")
+      slackSend (color: '#00FF00', message: "I am waiting for your approval to deploy the build to production.")
+      input "Deploy to prod?"
     }
 
     stage ('Deploy to the production environment'){
