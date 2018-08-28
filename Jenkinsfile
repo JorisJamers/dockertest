@@ -107,4 +107,3 @@ node {
     //     slackSend (color: '#00FF00', message: "SUCCESSFUL: Update on the production environment.")
     //   }
     // }
-}
