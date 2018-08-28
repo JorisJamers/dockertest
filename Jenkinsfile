@@ -45,7 +45,9 @@ node {
       sh 'kubectl --namespace=tst apply -f "/var/lib/jenkins/hello-node/templates/${BUILD_NUMBER}/hello-web_deploy.yaml"'
       test_ip = sh(returnStdout: true, script: 'kubectl --namespace=tst get services | grep -v NAME | cut -d\' \' -f10').trim()
       echo test_ip
+      sh 'gcloud dns record-sets transaction start -z=joris'
       sh 'gcloud dns record-sets transaction remove -z=joris --name="tst.joris.gluo.io" --type=A --ttl=300'
+      sh 'gcloud dns record-sets transaction execute -z=joris'
       slackSend (color: '#00FF00', message: "Succefully deployed to the test environment")
     }
 
