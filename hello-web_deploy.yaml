@@ -26,7 +26,8 @@ metadata:
     run: hello-web
 spec:
   ports:
-  - port: 8000
+  - port: 80
+    targetPort: 8000
     protocol: TCP
   type: LoadBalancer
   selector:
