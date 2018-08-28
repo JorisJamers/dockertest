@@ -42,11 +42,11 @@ node {
     }
 
     stage ('Deploy to the test environment')
-      sh 'kubectl --namespace=tst apply -f https://raw.githubusercontent.com/JorisJamers/dockertest/master/hello-web_deploy.yaml'
+      sh 'kubectl --namespace=tst apply -f /var/lib/jenkins/hello-node/templates/${BUILD_NUMBER}/hello-web_deploy.yaml'
     }
 
     stage ('Deploy to the uat environment'){
-      sh 'kubectl --namespace=uat apply -f https://raw.githubusercontent.com/JorisJamers/dockertest/master/hello-web_deploy.yaml'
+      sh 'kubectl --namespace=uat apply -f /var/lib/jenkins/hello-node/templates/${BUILD_NUMBER}/hello-web_deploy.yaml'
     }
 
     stage ('Deploy approval to production'){
@@ -55,7 +55,7 @@ node {
     }
 
     stage ('Deploy to the production environment'){
-      sh 'kubectl --namespace=prd apply -f https://raw.githubusercontent.com/JorisJamers/dockertest/master/hello-web_deploy.yaml'
+      sh 'kubectl --namespace=prd apply -f /var/lib/jenkins/hello-node/templates/${BUILD_NUMBER}/hello-web_deploy.yaml'
     }
 
     slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
