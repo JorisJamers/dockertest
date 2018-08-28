@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: hello-web
-        image: jollygnome/hellonode
+        image: jollygnome/hellonode:latest
         ports:
         - containerPort: 8000
 ---
