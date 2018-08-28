@@ -35,19 +35,25 @@ node {
     }
 
     stage ('Change the build template'){
-      sh 'wget -P ~ "https://raw.githubusercontent.com/JorisJamers/dockertest/master/hello-web_deploy.yaml"'
+      sh 'wget -P ~ "https://raw.githubusercontent.com/JorisJamers/dockertest/master/hello-web-deploy.yaml"'
       sh 'mkdir -p /var/lib/jenkins/hello-node/templates/${BUILD_NUMBER}'
-      sh 'mv hello-web_deploy.yaml /var/lib/jenkins/hello-node/templates/${BUILD_NUMBER}'
-      sh 'sed -i -e \"s/buildNumber/\${BUILD_NUMBER}/g\" /var/lib/jenkins/hello-node/templates/${BUILD_NUMBER}/hello-web_deploy.yaml'
+      sh 'mkdir -p /var/lib/jenkins/hello-node/templates/tst/${BUILD_NUMBER}'
+      sh 'mkdir -p /var/lib/jenkins/hello-node/templates/uat/${BUILD_NUMBER}'
+      sh 'mkdir -p /var/lib/jenkins/hello-node/templates/prd/${BUILD_NUMBER}'
+      sh 'sed -i -e \"s/buildNumber/\${BUILD_NUMBER}/g\" hello-web-deploy.yaml'
+      sh 'cp hello-web-deploy.yaml /var/lib/jenkins/hello-node/templates/tst/${BUILD_NUMBER}'
+      sh 'cp hello-web-deploy.yaml /var/lib/jenkins/hello-node/templates/uat/${BUILD_NUMBER}'
+      sh 'cp hello-web-deploy.yaml /var/lib/jenkins/hello-node/templates/prd/${BUILD_NUMBER}'
+      sh 'mv hello-web-deploy.yaml /var/lib/jenkins/hello-node/templates/${BUILD_NUMBER}'
     }
 
     stage ('Deploy to the test environment'){
-      sh 'kubectl --namespace=tst apply -f "/var/lib/jenkins/hello-node/templates/${BUILD_NUMBER}/hello-web_deploy.yaml"'
+      sh 'kubectl --namespace=tst apply -f "/var/lib/jenkins/hello-node/templates/tst/${BUILD_NUMBER}/hello-web-deploy.yaml"'
       slackSend (color: '#00FF00', message: "Succefully deployed to the test environment")
     }
 
     stage ('Deploy to the uat environment'){
-      sh 'kubectl --namespace=uat apply -f "/var/lib/jenkins/hello-node/templates/${BUILD_NUMBER}/hello-web_deploy.yaml"'
+      sh 'kubectl --namespace=uat apply -f "/var/lib/jenkins/hello-node/templates/uat/${BUILD_NUMBER}/hello-web-deploy.yaml"'
       slackSend (color: '#00FF00', message: "Succefully deployed to the uat environment")
     }
 
@@ -57,7 +63,7 @@ node {
     }
 
     stage ('Deploy to the production environment'){
-      sh 'kubectl --namespace=prd apply -f "/var/lib/jenkins/hello-node/templates/${BUILD_NUMBER}/hello-web_deploy.yaml"'
+      sh 'kubectl --namespace=prd apply -f "/var/lib/jenkins/hello-node/templates/prd/${BUILD_NUMBER}/hello-web-deploy.yaml"'
       slackSend (color: '#00FF00', message: "Succefully deployed to the production environment")
     }
 
