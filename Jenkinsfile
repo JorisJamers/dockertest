@@ -45,10 +45,12 @@ node {
       sh 'kubectl --namespace=tst apply -f "/var/lib/jenkins/hello-node/templates/${BUILD_NUMBER}/hello-web_deploy.yaml"'
       test_ip = sh(returnStdout: true, script: 'kubectl --namespace=tst get services | grep -v NAME | cut -d\' \' -f10').trim()
       echo test_ip
+      slackSend (color: '#00FF00', message: "Succefully deployed to the test environment")
     }
 
     stage ('Deploy to the uat environment'){
       sh 'kubectl --namespace=uat apply -f "/var/lib/jenkins/hello-node/templates/${BUILD_NUMBER}/hello-web_deploy.yaml"'
+      slackSend (color: '#00FF00', message: "Succefully deployed to the uat environment")
     }
 
     stage ('Deploy approval to production'){
@@ -58,6 +60,7 @@ node {
 
     stage ('Deploy to the production environment'){
       sh 'kubectl --namespace=prd apply -f "/var/lib/jenkins/hello-node/templates/${BUILD_NUMBER}/hello-web_deploy.yaml"'
+      slackSend (color: '#00FF00', message: "Succefully deployed to the production environment")
     }
 
     slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
