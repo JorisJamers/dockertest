@@ -51,12 +51,12 @@ node {
     }
 
     stage ('Deploy to the test environment'){
-      sh 'kubectl --namespace=tst apply -f "/var/lib/jenkins/hello-node/templates/tst/${BUILD_NUMBER}/hello-web-deploy.yaml"'
+      sh 'kubectl --namespace=tst create -f "/var/lib/jenkins/hello-node/templates/tst/${BUILD_NUMBER}/hello-web-deploy.yaml"'
       slackSend (color: '#00FF00', message: "Succefully deployed to the test environment")
     }
 
     stage ('Deploy to the uat environment'){
-      sh 'kubectl --namespace=uat apply -f "/var/lib/jenkins/hello-node/templates/uat/${BUILD_NUMBER}/hello-web-deploy.yaml"'
+      sh 'kubectl --namespace=uat create -f "/var/lib/jenkins/hello-node/templates/uat/${BUILD_NUMBER}/hello-web-deploy.yaml"'
       slackSend (color: '#00FF00', message: "Succefully deployed to the uat environment")
     }
 
@@ -66,7 +66,7 @@ node {
     }
 
     stage ('Deploy to the production environment'){
-      sh 'kubectl --namespace=prd apply -f "/var/lib/jenkins/hello-node/templates/prd/${BUILD_NUMBER}/hello-web-deploy.yaml"'
+      sh 'kubectl --namespace=prd create -f "/var/lib/jenkins/hello-node/templates/prd/${BUILD_NUMBER}/hello-web-deploy.yaml"'
       slackSend (color: '#00FF00', message: "Succefully deployed to the production environment")
     }
 
