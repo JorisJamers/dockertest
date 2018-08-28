@@ -30,31 +30,6 @@ spec:
   - port: 80
     targetPort: 8000
     protocol: TCP
-  type: LoadBalancer
+  #type: LoadBalancer
   selector:
     run: hello-web-environment
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: hello-web-ingress
-spec:
-  rules:
-  - host: tst.joris.gluo.io
-    http:
-      paths:
-      - backend:
-          serviceName: hello-web-tst
-          servicePort: 80
-  - host: uat.joris.gluo.io
-    http:
-      paths:
-      - backend:
-          serviceName: hello-web-uat
-          servicePort: 80
-  - host: prd.joris.gluo.io
-    http:
-      paths:
-      - backend:
-          serviceName: hello-web-prd
-          servicePort: 80
