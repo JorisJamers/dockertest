@@ -22,6 +22,7 @@ spec:
     app: hello-web
   template:
     metadata:
+      name: hello-web
       labels:
         app: hello-web
     spec:
