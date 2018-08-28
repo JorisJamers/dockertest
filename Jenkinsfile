@@ -34,7 +34,14 @@ node {
         }
     }
 
-    stage ('Deploy to the test environment'){
+    stage ('Change the build template'){
+      wget -P ~ 'https://raw.githubusercontent.com/JorisJamers/dockertest/master/hello-web_deploy.yaml'
+      mkdir -p /var/lib/jenkins/hello-node/templates/${BUILD_NUMBER}
+      mv hello-web_deploy.yaml /var/lib/jenkins/hello-node/templates/${BUILD_NUMBER}
+      sed -i -e 's/buildNumber/${BUILD_NUMBER}/g' /var/lib/jenkins/hello-node/templates/${BUILD_NUMBER}/hello-web_deploy.yaml
+    }
+
+    stage ('Deploy to the test environment')
       sh 'kubectl --namespace=tst apply -f https://raw.githubusercontent.com/JorisJamers/dockertest/master/hello-web_deploy.yaml'
     }
 
