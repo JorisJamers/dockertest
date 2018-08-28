@@ -2,28 +2,27 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: hello-web
-  labels:
-    app: hello-web
 spec:
-  replicas: 2
   selector:
     matchLabels:
-      app: hello-web
+      run: hello-web
+  replicas: 2
   template:
     metadata:
       labels:
-        app: hello-web
+        run: hello-web
     spec:
       containers:
       - name: hello-web
         image: jollygnome/hellonode
         ports:
         - containerPort: 80
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: hello-web-service
+  name: hello-web
   labels:
     run: hello-web
 spec:
