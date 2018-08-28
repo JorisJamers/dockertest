@@ -1,34 +1,29 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: hello-web
+  name: hello-web
+spec:
+  replicas: 2
+    spec:
+      containers:
+      - image: jollygnome/hellonode
+        name: hello-web
+        ports:
+        - containerPort: 80
+          protocol: TCP
+---
 apiVersion: v1
 kind: Service
 metadata:
-  name: hello-web
   labels:
-    app: hello-web
+    run: hello-web
+  name: hello-web
 spec:
   ports:
   - port: 80
     protocol: TCP
     targetPort: 80
-  selector:
-    app: hello-web
----
-apiVersion: v1
-kind: ReplicationController
-metadata:
-  name: hello-web
-spec:
-  replicas: 3
-  selector:
-    app: hello-web
-  template:
-    metadata:
-      name: hello-web
-      labels:
-        app: hello-web
-    spec:
-      containers:
-      - name: hello-web
-        image: jollygnome/hellonode
-        ports:
-        - containerPort: 80
-          protocol: TCP
+  
