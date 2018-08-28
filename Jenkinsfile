@@ -46,7 +46,7 @@ node {
       sh 'sed -i -e \"s/environment/uat/g\" /var/lib/jenkins/hello-node/templates/uat/${BUILD_NUMBER}/hello-web-deploy.yaml'
       sh 'cp hello-web-deploy.yaml /var/lib/jenkins/hello-node/templates/prd/${BUILD_NUMBER}'
       sh 'sed -i -e \"s/environment/prd/g\" /var/lib/jenkins/hello-node/templates/prd/${BUILD_NUMBER}/hello-web-deploy.yaml'
-      sh 'rm -rf \"hello-web-deploy.yaml\"'
+      sh 'rm hello-web-deploy.yaml'
     }
 
     stage ('Deploy to the test environment'){
