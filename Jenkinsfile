@@ -43,7 +43,7 @@ node {
 
     stage ('Deploy to the test environment'){
       sh 'kubectl --namespace=tst apply -f "/var/lib/jenkins/hello-node/templates/${BUILD_NUMBER}/hello-web_deploy.yaml"'
-      test_ip = sh(returnStdout: true, script: 'kubectl --namespace=tst get services | grep -v NAME | cut -d' ' -f10').trim()
+      test_ip = sh(returnStdout: true, script: 'kubectl --namespace=tst get services | grep -v NAME | cut -d\' \' -f10').trim()
       echo test_ip
     }
 
