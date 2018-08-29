@@ -1,0 +1,13 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: test
+  namespace: tst 
+spec:
+  rules:
+  - host: tst.joris.gluo.io
+    http:
+      paths:
+      - backend:
+          serviceName: hello-web-tst
+          servicePort: 80

@@ -1,0 +1,13 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: test
+  namespace: uat 
+spec:
+  rules:
+  - host: uat.joris.gluo.io
+    http:
+      paths:
+      - backend:
+          serviceName: hello-web-uat
+          servicePort: 80

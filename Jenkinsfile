@@ -66,7 +66,9 @@ node {
     }
 
     stage ('Deploy the loadbalancer'){
-      sh 'kubectl apply -f "https://raw.githubusercontent.com/JorisJamers/dockertest/master/hello-web-lb.yaml"'
+      sh 'kubectl apply -f "https://raw.githubusercontent.com/JorisJamers/dockertest/master/hello-web-lb-tst.yaml"'
+      sh 'kubectl apply -f "https://raw.githubusercontent.com/JorisJamers/dockertest/master/hello-web-lb-uat.yaml"'
+      sh 'kubectl apply -f "https://raw.githubusercontent.com/JorisJamers/dockertest/master/hello-web-lb-prd.yaml"'  
       slackSend (color: '#00FF00', message: "Check the loadbalancer")
     }
 
