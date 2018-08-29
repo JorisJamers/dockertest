@@ -2,12 +2,12 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: test
-  namespace: prd
+  namespace: environment
 spec:
   rules:
-  - host: web.prd.k8s.joris.gluo.io
+  - host: web.environment.k8s.joris.gluo.io
     http:
       paths:
       - backend:
-          serviceName: hello-web-prd
+          serviceName: hello-web-environment
           servicePort: 80

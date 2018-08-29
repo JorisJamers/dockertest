@@ -36,12 +36,16 @@ node {
 
     stage ('Change the build template'){
       sh 'wget -P ~ "https://raw.githubusercontent.com/JorisJamers/dockertest/master/hello-web-deploy.yaml"'
+      sh 'wget -P ~ "https://raw.githubusercontent.com/JorisJamers/dockertest/master/hello-web-lb.yaml"'
       sh 'sed -i -e \"s/buildNumber/\${BUILD_NUMBER}/g\" hello-web-deploy.yaml'
       String[] environmentArray = ["tst", "uat", "prd"]
       for (String item : environmentArray) {
           sh "mkdir -p /var/lib/jenkins/hello-node/templates/${item}/${BUILD_NUMBER}"
+          sh "mkdir -p /var/lib/jenkins/hello-node/templates/lb/${item}"
           sh "cp hello-web-deploy.yaml /var/lib/jenkins/hello-node/templates/${item}/${BUILD_NUMBER}"
+          sh "cp hello-web-lb.yaml /var/lib/jenkins/hello-node/templates/lb/${item}"
           sh "sed -i -e \"s/environment/${item}/g\" /var/lib/jenkins/hello-node/templates/${item}/${BUILD_NUMBER}/hello-web-deploy.yaml"
+          sh "sed -i -e \"s/environment/${item}/g\" /var/lib/jenkins/hello-node/templates/lb/${item}/hello-web-lb.yaml"
         }
       sh 'rm -rf ~/hello-web-deploy.yaml'
     }
@@ -67,9 +71,13 @@ node {
     }
 
     stage ('Deploy the loadbalancer'){
-      sh 'kubectl apply -f "https://raw.githubusercontent.com/JorisJamers/dockertest/master/hello-web-lb-tst.yaml"'
-      sh 'kubectl apply -f "https://raw.githubusercontent.com/JorisJamers/dockertest/master/hello-web-lb-uat.yaml"'
-      sh 'kubectl apply -f "https://raw.githubusercontent.com/JorisJamers/dockertest/master/hello-web-lb-prd.yaml"'
+      String[] environmentArray = ["tst", "uat", "prd"]
+      for (String item : environmentArray){
+        sh "kubectl apply -f \"/var/lib/jenkins/hello-node/templates/lb/${item}/hello-web-lb.yaml\""
+      }
+      // sh 'kubectl apply -f "https://raw.githubusercontent.com/JorisJamers/dockertest/master/hello-web-lb-tst.yaml"'
+      // sh 'kubectl apply -f "https://raw.githubusercontent.com/JorisJamers/dockertest/master/hello-web-lb-uat.yaml"'
+      // sh 'kubectl apply -f "https://raw.githubusercontent.com/JorisJamers/dockertest/master/hello-web-lb-prd.yaml"'
       slackSend (color: '#00FF00', message: "Check the loadbalancer")
     }
 
