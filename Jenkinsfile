@@ -49,7 +49,7 @@ node {
       sh 'rm -rf ~/hello-web-deploy.yaml'
       String[] testArray = ["A", "B", "C"]
       for (String item : testArray) {
-          System.out.println(item)
+          println(item)
         }
     }
 
