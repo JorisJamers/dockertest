@@ -35,6 +35,9 @@ node {
     }
 
     stage ('Change the build template'){
+        /* This will wget the needed files on the jenkins server, spread the templates to the needed folders and edit them
+         * the files get deleted afterwards.*/
+
       sh 'wget -P ~ "https://raw.githubusercontent.com/JorisJamers/dockertest/master/hello-web-deploy.yaml"'
       sh 'wget -P ~ "https://raw.githubusercontent.com/JorisJamers/dockertest/master/hello-web-lb.yaml"'
       sh 'sed -i -e \"s/buildNumber/\${BUILD_NUMBER}/g\" hello-web-deploy.yaml'
@@ -52,26 +55,36 @@ node {
     }
 
     stage ('Deploy to the test environment'){
+        /* Deploy the image to the tst environment. */
+
       sh 'kubectl --namespace=tst apply -f "/var/lib/jenkins/hello-node/templates/tst/${BUILD_NUMBER}/hello-web-deploy.yaml"'
       slackSend (color: '#00FF00', message: "Succefully deployed to the test environment")
     }
 
     stage ('Deploy to the uat environment'){
+        /* Deploy the image to the uat environment. */
+
       sh 'kubectl --namespace=uat apply -f "/var/lib/jenkins/hello-node/templates/uat/${BUILD_NUMBER}/hello-web-deploy.yaml"'
       slackSend (color: '#00FF00', message: "Succefully deployed to the uat environment")
     }
 
     stage ('Deploy approval to production'){
+        /* This will ask the developer to approve the deploy to the production environment. */
+
       slackSend (color: '#00FF00', message: "I am waiting for your approval to deploy the build to production.")
       input "Deploy to prod?"
     }
 
     stage ('Deploy to the production environment'){
+        /* Deploy the image to the prd environment. */
+
       sh 'kubectl --namespace=prd apply -f "/var/lib/jenkins/hello-node/templates/prd/${BUILD_NUMBER}/hello-web-deploy.yaml"'
       slackSend (color: '#00FF00', message: "Succefully deployed to the production environment")
     }
 
     stage ('Deploy the loadbalancer'){
+        /* This will deploy the needed loadbalancers for the environments. */
+        
       String[] environmentArray = ["tst", "uat", "prd"]
       for (String item : environmentArray){
         sh "kubectl apply -f \"/var/lib/jenkins/hello-node/templates/lb/${item}/hello-web-lb.yaml\""
