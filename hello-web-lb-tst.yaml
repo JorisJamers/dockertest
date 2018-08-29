@@ -2,10 +2,10 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: test
-  namespace: tst 
+  namespace: tst
 spec:
   rules:
-  - host: tst.joris.gluo.io
+  - host: tst.k8s.joris.gluo.io
     http:
       paths:
       - backend:
