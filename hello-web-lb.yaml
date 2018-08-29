@@ -8,17 +8,20 @@ spec:
     http:
       paths:
       - backend:
-          serviceName: tst/hello-web-tst
+          serviceName: hello-web-tst
           servicePort: 80
+          nameSpace: tst
   - host: uat.joris.gluo.io
     http:
       paths:
       - backend:
-          serviceName: uat/hello-web-uat
+          serviceName: hello-web-uat
           servicePort: 80
+          nameSpace: uat
   - host: prd.joris.gluo.io
     http:
       paths:
       - backend:
-          serviceName: prd/hello-web-prd
+          serviceName: hello-web-prd
           servicePort: 80
+          nameSpace: prd
