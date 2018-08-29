@@ -38,9 +38,9 @@ node {
       sh 'wget -P ~ "https://raw.githubusercontent.com/JorisJamers/dockertest/master/hello-web-deploy.yaml"'
       String[] environmentArray = ["tst", "uat", "prd"]
       for (String item : environmentArray) {
-          sh "mkdir -p /var/lib/jenkins/hello-node/templates/\$item/${BUILD_NUMBER}"
-          sh "cp hello-web-deploy.yaml /var/lib/jenkins/hello-node/templates/\$item/${BUILD_NUMBER}"
-          sh "sed -i -e \"s/environment/\$item/g\" /var/lib/jenkins/hello-node/templates/\$item/${BUILD_NUMBER}/hello-web-deploy.yaml"
+          sh 'mkdir -p /var/lib/jenkins/hello-node/templates/${item}/${BUILD_NUMBER}'
+          sh 'cp hello-web-deploy.yaml /var/lib/jenkins/hello-node/templates/${item}/${BUILD_NUMBER}'
+          sh 'sed -i -e \"s/environment/${item}/g\" /var/lib/jenkins/hello-node/templates/${item}/${BUILD_NUMBER}/hello-web-deploy.yaml'
         }
       sh 'rm -rf ~/hello-web-deploy.yaml'
     }
