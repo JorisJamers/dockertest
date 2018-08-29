@@ -5,7 +5,7 @@ metadata:
   namespace: prd
 spec:
   rules:
-  - host: prd.k8s.joris.gluo.io
+  - host: web.prd.k8s.joris.gluo.io
     http:
       paths:
       - backend:

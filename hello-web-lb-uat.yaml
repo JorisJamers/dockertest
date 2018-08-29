@@ -5,7 +5,7 @@ metadata:
   namespace: uat
 spec:
   rules:
-  - host: uat.k8s.joris.gluo.io
+  - host: web.uat.k8s.joris.gluo.io
     http:
       paths:
       - backend:
