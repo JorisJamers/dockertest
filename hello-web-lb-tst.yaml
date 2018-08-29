@@ -10,4 +10,4 @@ spec:
       paths:
       - backend:
           serviceName: hello-web-tst
-          servicePort: 80
+          servicePort: 8000
