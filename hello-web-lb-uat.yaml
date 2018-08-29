@@ -10,4 +10,4 @@ spec:
       paths:
       - backend:
           serviceName: hello-web-uat
-          servicePort: 8000
+          servicePort: 80

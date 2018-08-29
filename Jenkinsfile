@@ -56,10 +56,10 @@ node {
       slackSend (color: '#00FF00', message: "Succefully deployed to the uat environment")
     }
 
-    stage ('Deploy approval to production'){
-      slackSend (color: '#00FF00', message: "I am waiting for your approval to deploy the build to production.")
-      input "Deploy to prod?"
-    }
+    // stage ('Deploy approval to production'){
+    //   slackSend (color: '#00FF00', message: "I am waiting for your approval to deploy the build to production.")
+    //   input "Deploy to prod?"
+    // }
 
     stage ('Deploy to the production environment'){
       sh 'kubectl --namespace=prd apply -f "/var/lib/jenkins/hello-node/templates/prd/${BUILD_NUMBER}/hello-web-deploy.yaml"'
