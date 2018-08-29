@@ -48,6 +48,7 @@ node {
           sh "sed -i -e \"s/environment/${item}/g\" /var/lib/jenkins/hello-node/templates/lb/${item}/hello-web-lb.yaml"
         }
       sh 'rm -rf ~/hello-web-deploy.yaml'
+      sh 'rm -rf ~/hello-web-lb.yaml'
     }
 
     stage ('Deploy to the test environment'){
@@ -75,10 +76,7 @@ node {
       for (String item : environmentArray){
         sh "kubectl apply -f \"/var/lib/jenkins/hello-node/templates/lb/${item}/hello-web-lb.yaml\""
       }
-      // sh 'kubectl apply -f "https://raw.githubusercontent.com/JorisJamers/dockertest/master/hello-web-lb-tst.yaml"'
-      // sh 'kubectl apply -f "https://raw.githubusercontent.com/JorisJamers/dockertest/master/hello-web-lb-uat.yaml"'
-      // sh 'kubectl apply -f "https://raw.githubusercontent.com/JorisJamers/dockertest/master/hello-web-lb-prd.yaml"'
-      slackSend (color: '#00FF00', message: "Check the loadbalancer")
+      slackSend (color: '#00FF00', message: "Loadbalancer created")
     }
 
     slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
