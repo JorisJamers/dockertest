@@ -36,6 +36,7 @@ node {
 
     stage ('Change the build template'){
       sh 'wget -P ~ "https://raw.githubusercontent.com/JorisJamers/dockertest/master/hello-web-deploy.yaml"'
+      sh 'sed -i -e \"s/buildNumber/\${BUILD_NUMBER}/g\" hello-web-deploy.yaml'
       String[] environmentArray = ["tst", "uat", "prd"]
       for (String item : environmentArray) {
           sh "mkdir -p /var/lib/jenkins/hello-node/templates/${item}/${BUILD_NUMBER}"
@@ -68,7 +69,7 @@ node {
     stage ('Deploy the loadbalancer'){
       sh 'kubectl apply -f "https://raw.githubusercontent.com/JorisJamers/dockertest/master/hello-web-lb-tst.yaml"'
       sh 'kubectl apply -f "https://raw.githubusercontent.com/JorisJamers/dockertest/master/hello-web-lb-uat.yaml"'
-      sh 'kubectl apply -f "https://raw.githubusercontent.com/JorisJamers/dockertest/master/hello-web-lb-prd.yaml"'  
+      sh 'kubectl apply -f "https://raw.githubusercontent.com/JorisJamers/dockertest/master/hello-web-lb-prd.yaml"'
       slackSend (color: '#00FF00', message: "Check the loadbalancer")
     }
 
