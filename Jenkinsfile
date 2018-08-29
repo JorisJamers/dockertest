@@ -65,5 +65,10 @@ node {
       slackSend (color: '#00FF00', message: "Succefully deployed to the production environment")
     }
 
+    stage ('Deploy the loadbalancer'){
+      sh 'kubectl apply -f "https://raw.githubusercontent.com/JorisJamers/dockertest/master/hello-web-lb.yaml"'
+      slackSend (color: '#00FF00', message: "Check the loadbalancer")
+    }
+
     slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 }
