@@ -4,7 +4,7 @@ var http = require('http');
 // configure our HTTP server
 var server = http.createServer(function (request, response) {
   response.writeHead(200, {"Content-Type": "text/plain"});
-  response.end("This is with the new dns records.\n");
+  response.end("Hello world, this website is going to have SSL. Normally ;) \n");
 });
 
 // listen on localhost:8000
