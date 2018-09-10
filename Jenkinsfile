@@ -81,18 +81,6 @@ node {
       sh 'kubectl --namespace=prd apply -f "/var/lib/jenkins/hello-node/templates/prd/${BUILD_NUMBER}/hello-web-deploy.yaml"'
       slackSend (color: '#00FF00', message: "Succefully deployed to the production environment")
     }
-
-    // Use the following loadbalancer deploy if you don't have loadbalancers in your initial infrastructure. 
-
-    // stage ('Deploy the loadbalancer'){
-    //     /* This will deploy the needed loadbalancers for the environments. */
-    //
-    //   String[] environmentArray = ["tst", "uat", "prd"]
-    //   for (String item : environmentArray){
-    //     sh "kubectl apply -f \"/var/lib/jenkins/hello-node/templates/lb/${item}/hello-web-lb.yaml\""
-    //   }
-    //   slackSend (color: '#00FF00', message: "Loadbalancer created")
-    // }
-
+    
     slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 }
