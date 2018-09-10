@@ -82,15 +82,15 @@ node {
       slackSend (color: '#00FF00', message: "Succefully deployed to the production environment")
     }
 
-    stage ('Deploy the loadbalancer'){
-        /* This will deploy the needed loadbalancers for the environments. */
-        
-      String[] environmentArray = ["tst", "uat", "prd"]
-      for (String item : environmentArray){
-        sh "kubectl apply -f \"/var/lib/jenkins/hello-node/templates/lb/${item}/hello-web-lb.yaml\""
-      }
-      slackSend (color: '#00FF00', message: "Loadbalancer created")
-    }
+    // stage ('Deploy the loadbalancer'){
+    //     /* This will deploy the needed loadbalancers for the environments. */
+    //
+    //   String[] environmentArray = ["tst", "uat", "prd"]
+    //   for (String item : environmentArray){
+    //     sh "kubectl apply -f \"/var/lib/jenkins/hello-node/templates/lb/${item}/hello-web-lb.yaml\""
+    //   }
+    //   slackSend (color: '#00FF00', message: "Loadbalancer created")
+    // }
 
     slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 }
