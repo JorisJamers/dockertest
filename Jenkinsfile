@@ -82,6 +82,8 @@ node {
       slackSend (color: '#00FF00', message: "Succefully deployed to the production environment")
     }
 
+    // Use the following loadbalancer deploy if you don't have loadbalancers in your initial infrastructure. 
+
     // stage ('Deploy the loadbalancer'){
     //     /* This will deploy the needed loadbalancers for the environments. */
     //
