@@ -33,3 +33,9 @@ spec:
   type: NodePort
   selector:
     run: hello-web-environment
+
+
+
+sed -e 's/<namespace>/default/g' \
+    -e 's/<service-account>/demojoris@certain-nexus-865.iam.gserviceaccount.com/g' \
+    example/rbac-template.yaml > example/rbac.yaml
